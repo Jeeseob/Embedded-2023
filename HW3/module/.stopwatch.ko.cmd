@@ -1,0 +1,1 @@
+cmd_/home/embe/Desktop/jee/hw_3/module/stopwatch.ko := arm-none-linux-gnueabi-ld -EL -r  -T /work/achroimx_kernel/scripts/module-common.lds --build-id  -o /home/embe/Desktop/jee/hw_3/module/stopwatch.ko /home/embe/Desktop/jee/hw_3/module/stopwatch.o /home/embe/Desktop/jee/hw_3/module/stopwatch.mod.o
