@@ -22,18 +22,20 @@ public final class R {
     }
     public static final class id {
         public static final int left_button=0x7f080001;
-        public static final int right_button=0x7f080002;
+        public static final int right_button=0x7f080003;
+        public static final int shoot_button=0x7f080002;
         public static final int web_cam=0x7f080000;
     }
     public static final class layout {
         public static final int fragment_main=0x7f030000;
     }
     public static final class string {
-        public static final int app_name=0x7f060001;
-        public static final int left_label=0x7f060002;
-        public static final int main_title=0x7f060000;
-        public static final int right_label=0x7f060003;
-        public static final int webcam=0x7f060004;
+        public static final int app_name=0x7f060000;
+        public static final int left_label=0x7f060001;
+        public static final int main_title=0x7f060005;
+        public static final int right_label=0x7f060002;
+        public static final int shoot_label=0x7f060004;
+        public static final int webcam=0x7f060003;
     }
     public static final class style {
         /** 

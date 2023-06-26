@@ -33,7 +33,14 @@
     	    android:layout_height="wrap_content"
     	    android:text="@string/left_label" 
     	    style="?android:attr/buttonBarButtonStyle"/>
-
+    	
+       	<Button
+    	    android:id="@+id/shoot_button"
+    	    android:layout_width="90dp"
+    	    android:layout_height="wrap_content"
+    	    android:text="@string/shoot_label" 
+    	    style="?android:attr/buttonBarButtonStyle"/>
+    	
     	<Button
     	    android:id="@+id/right_button"
     	    android:layout_width="90dp"

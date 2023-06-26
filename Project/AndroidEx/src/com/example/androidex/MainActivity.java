@@ -1,27 +1,44 @@
 package com.example.androidex;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.text.format.DateFormat;
 import android.util.Log;
 
-public class MainActivity extends Activity implements OnTouchListener {
+public class MainActivity extends Activity implements OnTouchListener, OnClickListener {
 	private static final String TAG = "WebCam";
 	private native int moveMotorRight();
 	private native int moveMotorLeft();
 	private native int stopMotor();
 	private native byte[] capture();
 	ImageView webCam;
+	Bitmap bitmap = null;
+	byte[] source = null;
+	
 	Thread thread;
 	static{
 		System.loadLibrary("motor_jni");
@@ -36,6 +53,8 @@ public class MainActivity extends Activity implements OnTouchListener {
 		leftButton.setOnTouchListener(this);     
 		View rightButton = findViewById(R.id.right_button);
 		rightButton.setOnTouchListener(this);
+		View shootButton = findViewById(R.id.shoot_button);
+		shootButton.setOnClickListener(this);
 		webCam = (ImageView) findViewById(R.id.web_cam);
 		
 		if(thread == null) {
@@ -79,12 +98,33 @@ public class MainActivity extends Activity implements OnTouchListener {
 		return false;
 	}
 
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch(v.getId()){
+			case R.id.shoot_button:
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
+				Log.d(TAG, formatter.format(new Date()));
+				OutputStream out = null;
+			try {
+				File file = new File("/sdcard/DCIM", formatter.format(new Date()) + ".png");
+				file.createNewFile();
+				out = new FileOutputStream(file);
+				Context context = this.getBaseContext();
+				context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
+				bitmap.compress(Bitmap.CompressFormat.PNG,  80, out);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		}
+	}
 	
 	class WebCamImage implements Runnable{
 		Handler handler = new Handler();
 		boolean hasImageAlready = (webCam.getDrawable() != null);
-		Bitmap bitmap = null;
-		byte[] source = null;
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
@@ -92,13 +132,6 @@ public class MainActivity extends Activity implements OnTouchListener {
 				// get Image
 				Log.d(TAG, "Get Image");
 				source = capture();
-				try {
-					Log.d(TAG, "Sleep");
-					Thread.sleep(200);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				if(source != null) {
 					Log.d(TAG, "Image Not NULL : ");
 					// decode Image 
