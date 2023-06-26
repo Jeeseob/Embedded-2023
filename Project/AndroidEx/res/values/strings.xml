@@ -1,0 +1,9 @@
+<resources>
+
+    <string name="main_title">WebCam Viewer</string>
+    <string name="app_name">webCam Viewer</string>
+    <string name="left_label">Left</string>
+    <string name="right_label">Right</string>
+    <string name="webcam">web cam image</string>
+
+</resources>
